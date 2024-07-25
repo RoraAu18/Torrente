@@ -739,6 +739,7 @@ PlayerSettings:
   webGLPowerPreference: 2
   scriptingDefineSymbols:
     Standalone: FUSION_WEAVER;FUSION2
+    WebGL: FUSION_WEAVER;FUSION2
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
@@ -771,7 +772,7 @@ PlayerSettings:
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
   metroPackageName: FusionTrial
-  metroPackageVersion: 
+  metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
@@ -779,7 +780,7 @@ PlayerSettings:
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: FusionTrial
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: FusionTrial
   metroTileShowName: 0
   metroMediumTileShowName: 0
   metroLargeTileShowName: 0
