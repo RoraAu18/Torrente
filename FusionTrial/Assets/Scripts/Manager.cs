@@ -6,6 +6,7 @@ using Fusion;
 using Fusion.Sockets;
 using System;
 using Unity.VisualScripting;
+using static UnityEngine.EventSystems.PointerEventData;
 
 public class Manager : MonoBehaviour, INetworkRunnerCallbacks
 {
@@ -40,14 +41,14 @@ public class Manager : MonoBehaviour, INetworkRunnerCallbacks
             sceneInfo.AddSceneRef(scene, LoadSceneMode.Additive);
         }
 
-        // Start or join (depends on gamemode) a session with a specific name
         await runner.StartGame(new StartGameArgs()
         {
-            GameMode = mode,
+            GameMode = GameMode.AutoHostOrClient,
+            Address = NetAddress.Any(),
             SessionName = "TorrenteRoom",
             Scene = scene,
             SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
-        });
+        }) ;
     }
 
     private void OnGUI()
@@ -90,29 +91,14 @@ public class Manager : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
-        var data = new NetworkInputData();
+        InputData currentInput = new InputData();
 
-        if (Input.GetKey(KeyCode.W))
-            data.direction += Vector3.forward;
+        currentInput.Buttons.Set(InputButton.RESPAWN, Input.GetKey(KeyCode.R));
+        currentInput.Buttons.Set(InputButton.JUMP, Input.GetKey(KeyCode.Space));
+        currentInput.Buttons.Set(InputButton.LEFT, Input.GetKey(KeyCode.A));
+        currentInput.Buttons.Set(InputButton.RIGHT, Input.GetKey(KeyCode.D));
 
-        if (Input.GetKey(KeyCode.S))
-            data.direction += Vector3.back;
-
-        if (Input.GetKey(KeyCode.A))
-            data.direction += Vector3.left;
-
-        if (Input.GetKey(KeyCode.D))
-            data.direction += Vector3.right;
-        
-        /*
-        if(Input.GetKey(KeyCode.Space))
-        {
-            currYVelocity = Mathf.Sqrt(jumpHeight * 2f * 10);
-        }*/
-
-        data.buttons.Set(NetworkInputData.MOUSEBUTTON0, _mouseButton0);
-        _mouseButton0 = false;
-        input.Set(data);
+        input.Set(currentInput);
     }
 
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
@@ -135,6 +121,7 @@ public class Manager : MonoBehaviour, INetworkRunnerCallbacks
             NetworkObject networkPlayerObject = runner.Spawn(prefab, spawnPosition, Quaternion.identity, player);
             _spawnedCharacters.Add(player, networkPlayerObject);
         }
+        else Debug.Log("joining ");
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)

@@ -6,6 +6,7 @@ public class CameraCC : MonoBehaviour
 {
     [SerializeField] Player player;
     [SerializeField] float offset;
+    [SerializeField] float zOffset;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +22,7 @@ public class CameraCC : MonoBehaviour
         Vector3 vectorPos = new Vector3();
         vectorPos.x = player.transform.position.x + offset;
         vectorPos.y = player.transform.position.y + offset;
+        vectorPos.z = zOffset;
         transform.position = vectorPos;
     }
 }
